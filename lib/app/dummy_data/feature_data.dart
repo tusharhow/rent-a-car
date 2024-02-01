@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rent_a_car/models/feature_model.dart';
+import 'package:rent_a_car/app/models/feature_model.dart';
 
 final List<FeatureModel> features = [
   const FeatureModel(

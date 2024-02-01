@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rent_a_car/app/components/car_card.dart';
 import 'package:rent_a_car/app/components/car_category.dart';
-import 'package:rent_a_car/dummy_data/car_data.dart';
+import 'package:rent_a_car/app/dummy_data/car_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage>
           title: Row(
             children: [
               const CircleAvatar(
-                radius: 30,
+                radius: 25,
                 backgroundImage: AssetImage('assets/images/profile.jpg'),
               ),
               const SizedBox(width: 10),
@@ -70,14 +70,14 @@ class _HomePageState extends State<HomePage>
                     'Hello,',
                     style: GoogleFonts.inter(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                   ),
                   Text(
                     'Tushar',
                     style: GoogleFonts.inter(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage>
         body: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const SizedBox(height: 30),
+          const SizedBox(height: 16),
           Row(
             children: [
               Padding(
@@ -147,6 +147,7 @@ class _HomePageState extends State<HomePage>
                   child: TextFormField(
                     decoration: const InputDecoration(
                       hintText: 'Search for a car',
+                      hintStyle: TextStyle(color: Colors.white54),
                       prefixIcon: Icon(Icons.search, color: Colors.white54),
                       filled: true,
                       fillColor: Colors.black,
@@ -174,13 +175,12 @@ class _HomePageState extends State<HomePage>
                   padding: const EdgeInsets.all(14.0),
                   child: Image.asset(
                     'assets/icons/filter1.png',
-                    height: 1,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -204,11 +204,11 @@ class _HomePageState extends State<HomePage>
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
-              height: 155,
+              height: 140,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: const Color(0xff252420),
@@ -226,8 +226,8 @@ class _HomePageState extends State<HomePage>
                           'Search by brand',
                           style: GoogleFonts.inter(
                             color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         const Spacer(),
@@ -236,7 +236,6 @@ class _HomePageState extends State<HomePage>
                           style: GoogleFonts.inter(
                             color: Colors.white,
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -278,7 +277,7 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
@@ -300,8 +299,8 @@ class _HomePageState extends State<HomePage>
                           'Most popular cars',
                           style: GoogleFonts.inter(
                             color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         const Spacer(),
@@ -334,7 +333,7 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
         ])));
   }
 }

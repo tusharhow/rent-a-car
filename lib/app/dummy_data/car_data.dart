@@ -1,4 +1,4 @@
-import 'package:rent_a_car/models/car_model.dart';
+import 'package:rent_a_car/app/models/car_model.dart';
 
 final List<CarModel> carList = [
   CarModel(

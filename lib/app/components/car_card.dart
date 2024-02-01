@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rent_a_car/app/details_page.dart';
-import 'package:rent_a_car/dummy_data/car_data.dart';
-import 'package:rent_a_car/models/car_model.dart';
+import 'package:rent_a_car/app/views/details_page.dart';
+import 'package:rent_a_car/app/dummy_data/car_data.dart';
+import 'package:rent_a_car/app/models/car_model.dart';
 
 class CarCard extends StatelessWidget {
   const CarCard({

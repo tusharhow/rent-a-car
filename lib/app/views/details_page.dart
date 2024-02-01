@@ -2,8 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rent_a_car/app/components/feature_row.dart';
-import 'package:rent_a_car/dummy_data/feature_data.dart';
-import 'package:rent_a_car/models/car_model.dart';
+import 'package:rent_a_car/app/dummy_data/feature_data.dart';
+import 'package:rent_a_car/app/models/car_model.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({super.key, required this.car});
@@ -57,7 +57,6 @@ class DetailsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                  const SizedBox(height: 20),
                   Center(
                     child: Text(
                       car.name,
@@ -149,7 +148,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -215,7 +214,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(

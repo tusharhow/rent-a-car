@@ -5,7 +5,8 @@ class CarCategory extends StatelessWidget {
   const CarCategory({
     super.key,
     required this.icon,
-    required this.label, required this.iconColor,
+    required this.label,
+    required this.iconColor,
   });
   final String icon;
   final Color iconColor;
@@ -40,11 +41,11 @@ class CarCategory extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-               label,
+              label,
               style: GoogleFonts.inter(
                 color: Colors.white,
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],

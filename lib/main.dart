@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rent_a_car/app/home_page.dart';
+import 'package:rent_a_car/app/views/home_page.dart';
 
 void main() {
   runApp(const MyApp());
