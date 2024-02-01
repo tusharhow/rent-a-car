@@ -1,48 +1,87 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:rent_a_car/app/details_page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rent_a_car/app/components/car_card.dart';
+import 'package:rent_a_car/app/components/car_category.dart';
+import 'package:rent_a_car/dummy_data/car_data.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  int _selectedIndex = 0;
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+  }
+
+  Widget _tabItem(Widget child, String label, {bool isSelected = false}) {
+    return AnimatedContainer(
+        margin: const EdgeInsets.all(8),
+        alignment: Alignment.center,
+        duration: const Duration(milliseconds: 500),
+        decoration: !isSelected
+            ? null
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.black,
+              ),
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            child,
+            Text(label, style: const TextStyle(fontSize: 8)),
+          ],
+        ));
+  }
+
+  final List<String> _labels = ['Home', 'maps', 'camera'];
+
+  @override
   Widget build(BuildContext context) {
+    List<Widget> icons = const [
+      Icon(Icons.home_outlined),
+      Icon(Icons.explore_outlined),
+      Icon(Icons.camera_alt_outlined)
+    ];
     return Scaffold(
-        backgroundColor: Color(0xff282723),
+        backgroundColor: const Color(0xff282723),
         appBar: AppBar(
-          backgroundColor: Color(0xff282723),
+          backgroundColor: const Color(0xff282723),
           title: Row(
             children: [
-              FadeInDown(
-                duration: Duration(milliseconds: 500),
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage('assets/images/profile.jpg'),
-                ),
+              const CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage('assets/images/profile.jpg'),
               ),
               const SizedBox(width: 10),
-              FadeInDown(
-                duration: Duration(milliseconds: 500),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Hello,',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hello,',
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 16,
                     ),
-                    Text(
-                      'John Doe',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  Text(
+                    'Tushar',
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -54,7 +93,7 @@ class HomePage extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white38, width: 1),
               ),
-              child: Center(
+              child: const Center(
                 child: Icon(
                   Icons.notifications_none,
                   color: Colors.white,
@@ -64,21 +103,35 @@ class HomePage extends StatelessWidget {
             const SizedBox(width: 10)
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+        bottomNavigationBar: Container(
+          height: 100,
+          padding: const EdgeInsets.all(12),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50.0),
+            child: Container(
+              color: Colors.teal.withOpacity(0.2),
+              child: TabBar(
+                  onTap: (x) {
+                    setState(() {
+                      _selectedIndex = x;
+                    });
+                  },
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.blueGrey,
+                  indicator: const UnderlineTabIndicator(
+                    borderSide: BorderSide.none,
+                  ),
+                  tabs: [
+                    for (int i = 0; i < icons.length; i++)
+                      _tabItem(
+                        icons[i],
+                        _labels[i],
+                        isSelected: i == _selectedIndex,
+                      ),
+                  ],
+                  controller: _tabController),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              label: 'Favorites',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              label: 'Profile',
-            ),
-          ],
+          ),
         ),
         body: SingleChildScrollView(
             child:
@@ -92,7 +145,7 @@ class HomePage extends StatelessWidget {
                   height: 60,
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Search for a car',
                       prefixIcon: Icon(Icons.search, color: Colors.white54),
                       filled: true,
@@ -114,7 +167,7 @@ class HomePage extends StatelessWidget {
                 height: 50,
                 width: 60,
                 decoration: BoxDecoration(
-                  color: Colors.white30,
+                  color: Colors.teal,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
@@ -128,128 +181,25 @@ class HomePage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          // buy car, rent car and sell car card
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff252420),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade800,
-                        blurRadius: 0,
-                        spreadRadius: 0,
-                        offset: Offset(-1, -2),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icons/car.png',
-                          height: 30,
-                          color: Colors.orange,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Buy car',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                CarCategory(
+                  icon: 'assets/icons/car.png',
+                  iconColor: Colors.orange,
+                  label: 'Buy car',
                 ),
-                Container(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff252420),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade800,
-                        blurRadius: 0,
-                        spreadRadius: 0,
-                        offset: Offset(-1, -2),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icons/car-rental.png',
-                          height: 30,
-                          color: Colors.blueAccent,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Rent car',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                CarCategory(
+                  icon: 'assets/icons/car-rental.png',
+                  iconColor: Colors.blueAccent,
+                  label: 'Rent car',
                 ),
-                Container(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff252420),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade800,
-                        blurRadius: 0,
-                        spreadRadius: 0,
-                        offset: Offset(-1, -2),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icons/car-sell.png',
-                          height: 30,
-                          color: Colors.greenAccent,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Sell car',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                CarCategory(
+                  icon: 'assets/icons/car-sell.png',
+                  iconColor: Colors.greenAccent,
+                  label: 'Sell car',
                 ),
               ],
             ),
@@ -263,14 +213,6 @@ class HomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xff252420),
                 borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.grey.shade800,
-                //     blurRadius: 0,
-                //     spreadRadius: 0,
-                //     offset: Offset(-1, -2),
-                //   ),
-                // ],
                 border: Border.all(color: Colors.grey.shade800, width: 1),
               ),
               child: Column(
@@ -282,18 +224,18 @@ class HomePage extends StatelessWidget {
                       children: [
                         Text(
                           'Search by brand',
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const Spacer(),
                         Text(
                           'View all',
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -308,7 +250,7 @@ class HomePage extends StatelessWidget {
                       child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: 7,
+                        itemCount: 6,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Padding(
@@ -322,7 +264,7 @@ class HomePage extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Image.asset(
-                                  'assets/icons/lambo.png',
+                                  'assets/logos/brand${index + 1}.png',
                                   height: 45,
                                 ),
                               ),
@@ -340,7 +282,7 @@ class HomePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
-              height: 650,
+              height: 630,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: const Color(0xff252420),
@@ -356,18 +298,18 @@ class HomePage extends StatelessWidget {
                       children: [
                         Text(
                           'Most popular cars',
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const Spacer(),
                         Text(
                           'View all',
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 15,
                           ),
                         ),
                       ],
@@ -375,7 +317,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   GridView.builder(
-                    itemCount: 6,
+                    itemCount: carList.length,
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     gridDelegate:
@@ -384,117 +326,8 @@ class HomePage extends StatelessWidget {
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (context, index) {
-                      return Hero(
-                        tag: 'assets/images/car${index + 1}.png',
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailsPage(
-                                        image:
-                                            'assets/images/car${index + 1}.png')));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff252420),
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.orange.withOpacity(0.5),
-                                        blurRadius: 0,
-                                        spreadRadius: 0,
-                                        offset: const Offset(1, 2),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                  top: -35,
-                                  child: Image.asset(
-                                    'assets/images/car${index + 1}.png',
-                                    width: 120,
-                                    height: 100,
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 10,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // color balls
-                                      Row(
-                                        children: [
-                                          Container(
-                                            height: 10,
-                                            width: 10,
-                                            decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Container(
-                                            height: 10,
-                                            width: 10,
-                                            decoration: BoxDecoration(
-                                              color: Colors.blue,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Container(
-                                            height: 10,
-                                            width: 10,
-                                            decoration: BoxDecoration(
-                                              color: Colors.green,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'MV ZS EV',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        'First Edition 2021',
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-
-                                      Text(
-                                        '\$ 45,894',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
+                      final car = carList[index];
+                      return CarCard(car: car);
                     },
                   ),
                 ],
